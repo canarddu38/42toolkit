@@ -4,7 +4,7 @@ A simple toolkit to enhance coding
 ## Features
 - [x] zsh custom PROMPT
 - [x] gruvbox vim theme
-- [x] [custom scripts to enhace coding](#custom_scripts)
+- [x] [custom scripts to enhace coding](#custom-scripts)
 
 ## Installation
 ```
