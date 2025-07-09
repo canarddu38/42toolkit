@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# credits: 0x262d
+
+# test function by generating a temp main.c file and compile
+# works only if function=filename (without the .c)
+# editing the file and making a main function to test it is slow so speed it up with this script
+
+clear
+
+echo "\e[34m42 toolkit\e[0m [by 0x262d] -> \e[34m42cfunc\e[0m"
+
+# test_c -f funcName args
+if [ "$1" = "-f" ]; then
+    echo "using custom function name ($2)"
+    COMMAND="$2"
+    SOURCE_FILE="$(pwd)/$3"
+elif [[ "$1" = "-h" ] || [ "$1" = "--help" ]]; then
+    echo "Help command:"
+    echo "usage: test_c [-f <function name>] <c file to test>"
+    exit 0
+else
+    SOURCE_FILE="$(pwd)/$1"
+
+    COMMAND="$(basename $SOURCE_FILE | cut -d. -f 1)"
+
+    echo "SOURCE_FILE: $SOURCE_FILE"
+fi
+
+
+if [ ! -f $SOURCE_FILE ]; then
+    echo "file not found!"
+    echo "usage: test_c [-f <function name>] <c file to test>"
+else
+    echo "#include \"$SOURCE_FILE\"\n\nint     main(void)\n{\n        $COMMAND($ARGUMENTS);\n}" > /tmp/42verificationMainFile.c
+    nano /tmp/42verificationMainFile.c
+    echo "\e[35m-[NORMINETTE]-----------------------------\e[0m"
+    norminette -R CheckForbiddenSourceHeader $SOURCE_FILE || (echo "\e[35mERROR\e[0m: norminette errors." && exit 1)
+    echo "\e[35m-[COMPILATION]----------------------------\e[0m"
+    cc -Wall -Wextra -Werror /tmp/42verificationMainFile.c -I. -o /tmp/42verificationMainFile || (echo "\e[35mERROR\e[0m: compilation errors." && exit 1)
+    echo "\e[35m-[TESTING]--------------------------------\e[0m"
+    chmod +x /tmp/42verificationMainFile
+    echo "OUTPUT: \"\e[33m$(/tmp/42verificationMainFile || (echo echo "\e[35mERROR\e[0m: program stopped with an error" && exit 1))\e[0m\""
+
+    echo "\e[32mAll tests succeeded!\e[0m"
+fi
