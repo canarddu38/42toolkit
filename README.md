@@ -19,4 +19,4 @@ this will test your single function code that is inside a file with the same nam
 
 this code can **edit a c file**, **check with norminette**, **compile**, **run** in a single command
 
-`42 [-f <function name to call>] <source c file to test>`
+`42ctest <source c file to edit&run>`
