@@ -1,0 +1,18 @@
+#!/bin/sh
+# simple 42 speed optimizer, write.compile.run.repeat
+
+clear
+
+BASENAME=$(echo $1 | cut -d '.' -f 1)
+
+vi $1
+
+cc -Wall -Wextra -Werror $1 -o $BASENAME || exit 1
+
+norminette $1 -R CheckForbiddenSourceHeader || exit 1
+
+chmod +x $BASENAME
+
+./$BASENAME | cat -e
+
+rm -rf $BASENAME
