@@ -17,7 +17,13 @@ TOOLKIT_PATH="/home/$USER/.42toolkit/"
 # create toolkit path
 mkdir -p $TOOLKIT_PATH
 
+# fetch scripts
+git clone https://github.com/canarddu38/42toolkit/ /tmp/42toolkit/
+mv /tmp/42toolkit/scripts/* $TOOLKIT_PATH
+# clean
+rm -rf /tmp/42toolkit
 
 # set perms
 chmod +x $TOOLKIT_PATH/*
+echo "$PATH:$TOOLKIT_PATH"
 export PATH="$PATH:$TOOLKIT_PATH"
