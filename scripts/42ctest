@@ -3,6 +3,8 @@
 
 clear
 
+echo "\e[34m42 toolkit\e[0m [by 0x262d] -> \e[34m42ctest\e[0m"
+
 BASENAME=$(echo $1 | cut -d '.' -f 1)
 
 vi $1
